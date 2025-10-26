@@ -1,0 +1,78 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "%@" : {
+
+    },
+    "%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "backButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Назад"
+          }
+        }
+      }
+    },
+    "Дата" : {
+
+    },
+    "Детали за %@" : {
+
+    },
+    "Изменение баланса:" : {
+
+    },
+    "Конец" : {
+
+    },
+    "Настройки" : {
+
+    },
+    "Начало" : {
+
+    },
+    "Оффлайн-режим" : {
+
+    },
+    "Период" : {
+
+    },
+    "Поиск статей" : {
+
+    },
+    "Синхронизация..." : {
+
+    },
+    "Статьи" : {
+
+    },
+    "Счёт" : {
+
+    },
+    "Тип" : {
+
+    }
+  },
+  "version" : "1.0"
+}
