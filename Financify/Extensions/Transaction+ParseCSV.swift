@@ -1,3 +1,18 @@
+/// ## Ревью: `Financify/Extensions/Transaction+ParseCSV.swift`
+/// 
+/// ## Критично
+/// - **CSV парсится через `String.split(separator: ",")`**, без учёта кавычек/экранирования.
+///   - Комментарии или поля, содержащие запятые, сломают парсинг (количество колонок будет не 8).
+///   - Текущее “подчищение кавычек” в `comment` не решает проблему split’а.
+/// 
+/// ## Важно
+/// - Используется `ISO8601DateFormatter` без fractional seconds (`.withInternetDateTime`), что может не совпасть с форматом API/экспорта (где часто есть `.000Z`).
+/// 
+/// ## Предложения
+/// - Либо использовать готовый CSV‑парсер, либо реализовать корректный state machine (кавычки, escaped quotes, delimiter внутри quotes).
+/// - Парсить дату через fallback (с/без fractional seconds), если формат входа может отличаться.
+/// 
+
 import Foundation
 
 extension Transaction {

@@ -1,3 +1,13 @@
+/// ## Ревью: `Financify/Scenes/Categories/CategoriesView.swift`
+/// 
+/// ## Важно
+/// - Много UI‑строк захардкожено (“Мои статьи”, “СТАТЬИ”, “Поиск статей”) — лучше локализовать.
+/// - `suggestions` строятся по тому же `fuzzyMatch`, что и фильтрация — см. производительность в `CategoriesViewModel_Review.md`.
+/// 
+/// ## Нюансы
+/// - При загрузке показывается `LoadingAnimation` только если `categories.isEmpty`. Если был старый список и идёт обновление, индикатор не показывается (может быть ок, но важно осознавать UX).
+/// 
+
 import SwiftUI
 
 struct CategoriesView: View {

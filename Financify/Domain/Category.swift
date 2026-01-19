@@ -1,3 +1,16 @@
+/// ## Ревью: `Financify/Domain/Category.swift`
+/// 
+/// ## Важно
+/// - Модель хранит `emoji` как `Character`, а в JSON ожидается `String`. Это ок.
+/// - Проверка `emojiString.count == 1` обычно работает корректно для emoji (Swift считает extended grapheme cluster), но если в API внезапно придёт пустая строка — будет decoding error (что, скорее, хорошо).
+/// 
+/// ## Нюансы
+/// - `direction` строится через `isIncome ? .income : .outcome` — это связывает модель с текущим неймингом `Direction` (см. `Direction_Review.md`).
+/// 
+/// ## Предложения
+/// - Для расширяемости (добавление новых типов категорий/направлений) лучше использовать отдельный enum на доменном уровне вместо `Bool`.
+/// 
+
 import Foundation
 
 struct Category: Codable, Identifiable {

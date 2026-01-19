@@ -1,3 +1,10 @@
+/// ## Ревью: `Financify/Scenes/TransactionsList/OfflineBannerView.swift`
+/// 
+/// ## Нюансы
+/// - Строка “Оффлайн-режим” захардкожена (локализация).
+/// - Компонент показывается на многих экранах — стоит следить за единым стилем/высотой/анимацией появления.
+/// 
+
 import SwiftUI
 
 struct OfflineBannerView: View {

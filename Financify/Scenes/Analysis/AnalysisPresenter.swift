@@ -1,3 +1,18 @@
+/// ## Ревью: `Financify/Scenes/Analysis/AnalysisPresenter.swift`
+/// 
+/// ## Критично
+/// - **`@MainActor` + `DispatchQueue.main.async`** в `presentOfflineStatus`:
+///   - Это лишнее и может менять порядок событий (async dispatch vs await).
+///   - В остальных методах используется `await view?.apply...` — получается непоследовательно.
+/// 
+/// ## Важно
+/// - Формирование процентов идёт через `Int(percent.rounded())%`. Это ок, но суммарно проценты по категориям могут “не сходиться” к 100 из‑за округления — важно понимать UX.
+/// 
+/// ## Предложения
+/// - Убрать `DispatchQueue.main.async` и вызывать `view?.displayOfflineStatus` напрямую (вы уже на MainActor).
+/// - Выровнять подход к обновлению view (либо всегда через `await MainActor.run`, либо всегда через MainActor‑изоляцию).
+/// 
+
 import Foundation
 import PieChart
 

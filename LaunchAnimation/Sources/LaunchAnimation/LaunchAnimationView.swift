@@ -1,3 +1,16 @@
+/// ## Ревью: `LaunchAnimation/Sources/LaunchAnimation/LaunchAnimationView.swift`
+/// 
+/// ## Важно
+/// - `updateUIView` пустой: если `animationName` или `onFinished` изменятся при обновлении SwiftUI‑вью, UIKit‑представление не обновится. Сейчас `animationName` задаётся в init и, вероятно, не меняется — но это ограничение стоит осознавать.
+/// 
+/// ## Нюансы
+/// - `onFinished()` вызывается в completion block `play`. При повторном появлении view (например, пересоздание SwiftUI дерева) callback может вызываться несколько раз — это важно учитывать на уровне caller’а.
+/// 
+/// ## Предложения
+/// - Для поддержки динамической смены `animationName` — реализовать логику в `updateUIView`.
+/// - Добавить возможность отменять/останавливать анимацию при уходе с экрана (например, в `deinit`/на уровне hosting), чтобы избежать лишних callback’ов и работы в фоне.
+/// 
+
 import SwiftUI
 import Lottie
 

@@ -1,3 +1,15 @@
+/// ## Ревью: `Financify/Scenes/Analysis/Additional Views/CategoryCellContentView.swift`
+/// 
+/// ## Важно
+/// - `currentConfiguration` хранится как IUO (`CategoryCellConfiguration!`). При некорректном жизненном цикле/переиспользовании теоретически возможно обращение до инициализации.
+/// 
+/// ## Нюансы
+/// - Equatable для `CategoryCellConfiguration` определён здесь же — ок, но стоит следить, чтобы все поля, влияющие на UI, были учтены (сейчас учтены).
+/// 
+/// ## Предложения
+/// - Сделать `currentConfiguration` опциональным и безопасно обрабатывать initial state.
+/// 
+
 import UIKit
 
 final class CategoryCellContentView: UIView, UIContentView {

@@ -1,3 +1,20 @@
+/// ## Ревью: `Financify/Domain/Transaction.swift`
+/// 
+/// ## Критично
+/// - **Парсинг `Decimal(string:)` зависит от локали устройства**:
+///   - В `init(from:)` сумма берётся из строки (`amtStr`) и парсится через `Decimal(string: amtStr)`.
+///   - На локалях с запятой в качестве decimal separator строка `"1234.56"` приводит к неправильному результату (дробная часть теряется).
+///   - Для серверных чисел почти всегда нужен `Locale(identifier: "en_US_POSIX")`.
+/// 
+/// ## Важно
+/// - Модель ожидает, что `amount` в JSON — **строка**, и кодирует обратно тоже строкой — это ок, но важно, чтобы контракт API был стабилен.
+/// - Даты парсятся через `ISO8601DateFormatter.shmr.dateNormalized`, но см. замечания к `Date+ISO8601` (форматы с/без fractional seconds).
+/// 
+/// ## Предложения
+/// - Парсить так: `Decimal(string: amtStr, locale: Locale(identifier: "en_US_POSIX"))`.
+/// - Для единообразия вынести парсинг чисел/дат в общий helper.
+/// 
+
 import Foundation
 
 struct Transaction: Codable, Identifiable, Equatable {

@@ -1,3 +1,15 @@
+/// ## Ревью: `Financify/Domain/DTO/AccountUpdateRequest.swift`
+/// 
+/// ## Критично
+/// - **`Decimal(string:)` без `locale`** при декодировании `balance` → на ru‑локали возможна потеря дробной части.
+/// 
+/// ## Важно
+/// - Кодирование balance в строку через `NSDecimalNumber(...).stringValue` — хороший, стабильный формат для API.
+/// 
+/// ## Предложения
+/// - Парсить `balance` с `Locale(identifier: "en_US_POSIX")`.
+/// 
+
 import Foundation
 
 struct AccountUpdateRequest: Codable {

@@ -1,3 +1,20 @@
+/// ## Ревью: `Financify/Domain/BankAccount.swift`
+/// 
+/// ## Критично
+/// - **Парсинг `balance` через `Decimal(string:)` зависит от локали** (см. `Transaction_Review.md`). На ru‑локали значения вида `"1234.56"` теряют дробную часть.
+/// 
+/// ## Важно
+/// - **`encode(to:)` использует `String(describing: balance)`**:
+///   - Это не гарантирует стабильный формат для API.
+///   - В других местах уже используется `NSDecimalNumber(decimal:).stringValue` — лучше унифицировать.
+/// - `currency` хранится как `String`, а в UI есть `Currency` enum → легко получить несогласованность (ISO код vs символ).
+/// 
+/// ## Предложения
+/// - Использовать `NSDecimalNumber(decimal: balance).stringValue` при кодировании.
+/// - Парсить balance с `locale: en_US_POSIX`.
+/// - Рассмотреть хранение валюты как ISO‑кода на доменном уровне.
+/// 
+
 import Foundation
 
 struct BankAccount: Codable, Identifiable {

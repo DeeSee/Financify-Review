@@ -1,3 +1,26 @@
+/// ## Ревью: `Financify/Scenes/Analysis/AnalysisInteractor.swift`
+/// 
+/// ## Критично
+/// - **Interactor — обычный class с mutable state, но его методы async и вызываются из нескольких Task**:
+///   - `refresh()` вызывается из `viewWillAppear`, из сетевого listener’а, из действий UI (сортировка/даты).
+///   - `isLoading` используется как “лок”, но без actor/@MainActor это не защищает от гонок.
+///   - Риск: параллельные refresh’и, out‑of‑order updates, data race на `transactions/categories/summaries`.
+/// 
+/// ## Важно
+/// - Ошибки обрабатываются через `print`, UI не получает “ошибка” состояние.
+/// - В `defer` делается `Task { await presenter.presentLoading(false) }`:
+///   - это асинхронный вызов, который может выполниться позже другого refresh’а и “погасить” загрузку не вовремя.
+/// 
+/// ## Нюансы
+/// - `endOfDay` вычисляется через force unwrap.
+/// - Сортировки для `summaries` в некоторых вариантах не соответствуют названию (например, `.oldestFirst` сортирует summaries по total desc).
+/// 
+/// ## Предложения
+/// - Сделать interactor `@MainActor` (если он UI‑связанный и должен быть сериализован), либо `actor`.
+/// - Ввести cancellation/serial execution для refresh.
+/// - Добавить явный UI‑state: loading/loaded/empty/error.
+/// 
+
 import Foundation
 
 final class AnalysisInteractor: AnalysisBusinessLogic, AnalysisBusinessStorage {

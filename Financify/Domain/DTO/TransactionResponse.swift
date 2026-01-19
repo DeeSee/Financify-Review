@@ -1,3 +1,16 @@
+/// ## Ревью: `Financify/Domain/DTO/TransactionResponse.swift`
+/// 
+/// ## Критично
+/// - **`Decimal(string:)` без `locale`** при декодировании `amount` → на ru‑локали возможна потеря дробной части (см. `Transaction_Review.md`).
+/// 
+/// ## Важно
+/// - DTO содержит вложенные `AccountBrief` и `Category`, затем конвертируется в доменную `Transaction`. Это хороший pattern.
+/// - Даты парсятся через `ISO8601DateFormatter.shmr.dateNormalized` — см. замечания к `Date+ISO8601`.
+/// 
+/// ## Предложения
+/// - Парсить `amount` с `en_US_POSIX` locale.
+/// 
+
 import Foundation
 
 struct TransactionResponse: Decodable, Identifiable {
