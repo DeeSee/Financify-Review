@@ -1,3 +1,18 @@
+/// ## Ревью: `Financify/Scenes/Analysis/Additional Views/TransactionCellContentView.swift`
+/// 
+/// ## Критично
+/// - **Equatable для `TransactionCellConfiguration` игнорирует `comment`**:
+///   - В `apply(configuration:)` стоит `guard currentConfiguration != configuration else { return }`.
+///   - Если изменится только `comment`, конфигурации будут считаться равными → `apply` не вызовется → UI не обновится.
+/// 
+/// ## Важно
+/// - `currentConfiguration` хранится как IUO (`TransactionCellConfiguration!`). Если по какой-то причине `configuration` будет запрошен до `apply`, возможен крэш.
+/// 
+/// ## Предложения
+/// - Включить `comment` в `==`, либо убрать guard и всегда применять конфигурацию.
+/// - Сделать `currentConfiguration` опциональным и корректно обрабатывать initial state.
+/// 
+
 import UIKit
 
 class TransactionCellContentView: UIView, UIContentView {

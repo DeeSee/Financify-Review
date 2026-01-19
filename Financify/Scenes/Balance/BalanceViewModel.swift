@@ -1,3 +1,29 @@
+/// ## Ревью: `Financify/Scenes/Balance/BalanceViewModel.swift`
+/// 
+/// ## Критично
+/// - **`selectedCurrency.didSet` делает сетевой апдейт** и вызывает `refreshBalance()`.
+///   - При первом `refreshBalance()` VM присваивает `selectedCurrency = Currency(jsonTitle: account.currency)`. Если это значение отличается от дефолтного, сработает `didSet` и VM отправит `updatePrimaryCurrency` обратно на сервер “сама по себе”.
+///   - Это может вызвать лишние PUT’ы и неожиданные изменения валюты на сервере.
+/// - **Потенциальный крэш на неизвестной валюте** (`Currency(jsonTitle:)` → `fatalError`).
+/// 
+/// ## Важно
+/// - **Расчёт графика зависит от категорий**:
+///   - `incomeCategoryIds` строится по `categoriesService.getAllCategories()`. Если категории не загрузились (особенно offline), все транзакции будут интерпретированы как расход (income set пустой) → неверный график.
+///   - И это лишний сетевой запрос/работа при каждом пересчёте графика.
+/// - **Нет отмены задач**:
+///   - `updateChartData()` стартует `Task` на каждый `didSet selectedPeriod` и `refreshBalance()`. При быстром переключении периодов задачи могут завершаться в другом порядке и перетирать `chartData`.
+/// 
+/// ## Нюансы
+/// - Диагностика ошибок только через `print`.
+/// 
+/// ## Предложения
+/// - Разделить “загруженное значение” и “пользовательский выбор валюты”:
+///   - использовать флаг `isSettingFromServer`,
+///   - или setter без side effects при initial load.
+/// - Кэшировать категории/классификацию `isIncome` (или хранить в транзакции направление), чтобы не вызывать сервис каждый раз.
+/// - Ввести cancellation для задач построения графика.
+/// 
+
 // Financify/Financify/Scenes/Balance/BalanceViewModel.swift
 
 import SwiftUI

@@ -1,3 +1,15 @@
+/// ## Ревью: `Financify/Scenes/Analysis/AnalysisProtocols.swift`
+/// 
+/// ## Важно
+/// - `AnalysisBusinessStorage` содержит много UI‑ориентированных полей (`isLoading`, `selectedSortOption`, `fromDate/toDate`). Для Clean Swift это типично, но стоит понимать: граница между “бизнес‑состоянием” и “UI‑состоянием” размыта.
+/// 
+/// ## Нюансы
+/// - `AnalysisBusinessLogic.makeEditorView(...) -> TransactionEditorView` возвращает SwiftUI View прямо из interactor’а. Это удобная интеграция, но увеличивает связность VIP‑модуля с SwiftUI.
+/// 
+/// ## Предложения
+/// - Если нужно более строгая архитектура: возвращать не View, а данные/роутинг‑команду, а создание SwiftUI‑экрана оставить на уровне сборки/роутера.
+/// 
+
 import Foundation
 import PieChart
 

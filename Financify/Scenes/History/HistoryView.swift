@@ -1,3 +1,13 @@
+/// ## Ревью: `Financify/Scenes/History/HistoryView.swift`
+/// 
+/// ## Важно
+/// - Много строк захардкожено (“История расходов/доходов”, “Начало/Конец”, “Сумма”, “ОПЕРАЦИИ”).
+/// - Экран зависит от ViewModel, который может делать лишние refresh’и при изменении дат (см. `HistoryViewModel_Review.md`).
+/// 
+/// ## Нюансы
+/// - `AnalysisViewControllerWrapper` прячет navigation bar и игнорирует safe area сверху — важно проверять на разных девайсах/ориентациях, чтобы не было визуальных артефактов.
+/// 
+
 import SwiftUI
 import UIKit
 

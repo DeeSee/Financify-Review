@@ -1,3 +1,14 @@
+/// ## Ревью: `Financify/Scenes/Balance/Additional/ChartDataPoint.swift`
+/// 
+/// ## Важно
+/// - `id = UUID()` создаётся при каждом создании `ChartDataPoint`.
+///   - При пересчёте `chartData` SwiftUI будет считать элементы “новыми”, что может ухудшать анимации/переиспользование.
+///   - Более стабильный id — например, `date` (если уникален в массиве).
+/// 
+/// ## Нюансы
+/// - `type` вычисляется как `amount >= 0 ? .income : .expense` — ок.
+/// 
+
 import Foundation
 
 struct ChartDataPoint: Identifiable, Equatable {

@@ -1,3 +1,13 @@
+/// ## Ревью: `Financify/Domain/DTO/AccountBrief.swift`
+/// 
+/// ## Критично
+/// - **Парсинг `balance` через `Decimal(string:)` зависит от локали**:
+///   - На ru‑локали строка `"1234.56"` приводит к потере дробной части.
+/// 
+/// ## Предложения
+/// - Парсить `balance` с `Locale(identifier: "en_US_POSIX")`.
+/// 
+
 import Foundation
 
 struct AccountBrief: Codable, Identifiable {

@@ -1,3 +1,26 @@
+/// ## Ревью: `Financify/Scenes/Analysis/AnalysisViewController.swift`
+/// 
+/// ## Критично
+/// - **`displayLoading(isLoading:)` может добавить несколько loading‑оверлеев**:
+///   - при `isLoading == true` нет проверки `loadingController == nil`.
+///   - если presenter вызовет `presentLoading(true)` повторно, можно получить дублирующиеся child VC.
+/// - **Показ/скрытие offline‑баннера основано на `intrinsicContentSize.height`** у `UIHostingController.view`.
+///   - У hosting view `intrinsicContentSize` часто не готов сразу, что может дать некорректную анимацию/позиционирование.
+///   - При скрытии используется `transform` без возврата constraints, что может приводить к AutoLayout предупреждениям.
+/// 
+/// ## Важно
+/// - Много UI‑строк в `Constants`, часть локализована (`backButtonTitle`), часть — нет. Лучше быть последовательным.
+/// - `Section(rawValue:)!` / `ControlRow(rawValue:)!` — форс‑анврапы. Сейчас безопасно из‑за `CaseIterable`, но при изменениях можно легко сломать.
+/// 
+/// ## Нюансы
+/// - В `makeSortCell` идёт ручное удаление subviews у `contentView` + настройка `accessoryView`. Это работает, но иногда проще использовать `UIListContentConfiguration`/`UICellConfigurationState` или diffable data source.
+/// 
+/// ## Предложения
+/// - Guard’ить создание loading overlay (`if loadingController == nil { ... }`).
+/// - Для баннера анимировать constraint constant, а не transform, и держать явную ссылку на bottom constraint.
+/// - Вынести все строки в локализацию.
+/// 
+
 import UIKit
 import SwiftUI
 import PieChart

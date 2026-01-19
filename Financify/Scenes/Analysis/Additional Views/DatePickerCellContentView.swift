@@ -1,3 +1,17 @@
+/// ## Ревью: `Financify/Scenes/Analysis/Additional Views/DatePickerCellContentView.swift`
+/// 
+/// ## Важно
+/// - `required init?(coder:) { nil }` — необычный паттерн. Для UIKit‑views чаще используют `fatalError(...)`, чтобы явно показать, что storyboard/xib не поддерживаются.
+/// - `internalConfig` хранится как IUO (`DatePickerCellConfiguration!`). Если произойдёт обращение до `apply`, возможен крэш.
+/// 
+/// ## Нюансы
+/// - `DatePickerCellConfiguration.Kind.title` захардкожен (“Начало/Конец”) — локализация.
+/// 
+/// ## Предложения
+/// - Заменить `init?(coder:)` на `fatalError` для ясности.
+/// - Сделать `internalConfig` опциональным и безопасно работать с ним.
+/// 
+
 import UIKit
 
 final class DatePickerCellContentView: UIView, UIContentView {

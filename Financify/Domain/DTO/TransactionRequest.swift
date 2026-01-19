@@ -1,3 +1,16 @@
+/// ## Ревью: `Financify/Domain/DTO/TransactionRequest.swift`
+/// 
+/// ## Критично
+/// - **`Decimal(string:)` без `locale`** при декодировании `amount`:
+///   - На ru‑локали строка `"1234.56"` распарсится неверно (теряется дробная часть).
+/// 
+/// ## Важно
+/// - Хорошо, что request сериализует `amount` как строку и `transactionDate` как ISO8601‑строку — это часто ожидаемый формат API.
+/// 
+/// ## Предложения
+/// - Парсить `amount` с `Locale(identifier: "en_US_POSIX")`.
+/// 
+
 import Foundation
 
 struct TransactionRequest: Codable {

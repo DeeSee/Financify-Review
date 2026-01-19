@@ -1,3 +1,14 @@
+/// ## Ревью: `Financify/Scenes/FinancifyApp.swift`
+/// 
+/// ## Важно
+/// - **Двойная анимация**: на `MainTabView` и на `LaunchAnimationView` стоят `.animation(..., value: showLaunchAnimation)`. Это может приводить к избыточным анимациям/непредсказуемости перехода.
+/// - **MainTabView под `opacity(0)`**: если бы оверлей не перекрывал всё, невидимый view мог бы продолжать принимать события. Сейчас `LaunchAnimationView` `ignoresSafeArea()` и поверх — вероятно ок, но это тонкий момент.
+/// 
+/// ## Предложения
+/// - Держать анимацию в одном месте (либо через `withAnimation` при переключении флага, либо через один `.animation`).
+/// - При необходимости явно блокировать интеракции под лонч‑анимацией (`.allowsHitTesting(!showLaunchAnimation)`).
+/// 
+
 import SwiftUI
 import LaunchAnimation
 

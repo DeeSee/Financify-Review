@@ -1,3 +1,17 @@
+/// ## Ревью: `Financify/Utils/ShakeGesture.swift`
+/// 
+/// ## Важно
+/// - **`becomeFirstResponder()` в `didMoveToWindow`**:
+///   - Такой view может “перехватывать” first responder и потенциально мешать вводу в текстовые поля на экране.
+///   - Нет явного `resignFirstResponder` при уходе view с экрана.
+/// - **SwiftUI `.background(ShakeGestureView(...))`**:
+///   - Удобно, но важно понимать, что это вставляет UIKit‑view в иерархию и может иметь сайд‑эффекты (ресайн first responder, события motion).
+/// 
+/// ## Предложения
+/// - Делать `becomeFirstResponder` более осторожно (например, только когда реально нужен shake, и не на всех экранах).
+/// - Добавить `resignFirstResponder` при `didMoveToWindow` (window == nil) или `willMove(toWindow:)`.
+/// 
+
 import SwiftUI
 
 struct ShakeGestureModifier: ViewModifier {

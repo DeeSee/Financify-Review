@@ -1,3 +1,17 @@
+/// ## Ревью: `Financify/Scenes/TransactionsList/TransactionCell.swift`
+/// 
+/// ## Важно
+/// - **Fallback “Unknown Category” на английском** — выбивается из русскоязычного UI.
+/// - Проверка `comment != ""` лучше как `!comment.isEmpty`.
+/// 
+/// ## Нюансы
+/// - `moneyFormatted` сейчас обрезает дробную часть (см. `Decimal+MoneyFormatter_Review.md`), поэтому здесь суммы могут отображаться неточно.
+/// 
+/// ## Предложения
+/// - Локализовать fallback‑строки.
+/// - Унифицировать формат валюты/суммы и отображение знака (если нужно).
+/// 
+
 import SwiftUI
 
 struct TransactionCell: View {

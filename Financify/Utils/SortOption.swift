@@ -1,3 +1,15 @@
+/// ## Ревью: `Financify/Utils/SortOption.swift`
+/// 
+/// ## Важно
+/// - **`rawValue` используется как UI‑строка**. Если появится локализация/смена языка, удобнее держать отдельный `titleKey`/`localizedTitle`, а не хранить человеко‑читаемый текст в `rawValue`.
+/// - **Иконки про рубль (`rublesign.circle*`)**:
+///   - Даже если выбран USD/EUR, сортировка “по сумме” будет показывать рубль.
+///   - Лучше использовать нейтральные символы (`arrow.up/arrow.down`, `number`, `line.3.horizontal.decrease.circle` и т.п.).
+/// 
+/// ## Нюансы
+/// - `Identifiable` через `id: Self` — ок.
+/// 
+
 
 enum SortOption: String, CaseIterable, Identifiable {
     case newestFirst = "Сначала новые"

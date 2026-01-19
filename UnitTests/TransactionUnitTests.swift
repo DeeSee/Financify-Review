@@ -1,3 +1,21 @@
+/// ## Ревью: `UnitTests/TransactionUnitTests.swift`
+/// 
+/// ## Критично
+/// - **Тест `testJSONObject_ReturnsDictionaryMirror` не соответствует фактической сериализации `Transaction`**:
+///   - `Transaction.encode(to:)` кодирует `amount` как **строку** (`NSDecimalNumber(...).stringValue`).
+///   - Даты кодируются как **ISO8601 строки**, а не `timeIntervalSinceReferenceDate`.
+///   - Соответственно, ожидания `dict["amount"] as? Double` и `dict["transactionDate"] as? Double` выглядят неверно и тест должен падать/давать ложные результаты.
+/// 
+/// ## Важно
+/// - Часть тестов на “missing required key” фактически может проходить по другой причине (например, из‑за несовпадения типов `amount`/дат), а не из‑за отсутствия ключа.
+/// 
+/// ## Предложения
+/// - Выбрать, что именно тестируем:
+///   - либо контракт `Transaction.jsonObject` (тогда проверять строки `amount` и ISO8601 для дат),
+///   - либо отдельный “legacy JSON формат” (тогда нужно менять сам `Transaction.encode`/`jsonObject`).
+/// - Добавить явные тесты на корректность формата чисел/дат, включая кейсы для локалей с запятой (ru_RU).
+/// 
+
 import XCTest
 @testable import Financify
 

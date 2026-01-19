@@ -1,3 +1,10 @@
+/// ## Ревью: `Financify/Scenes/Analysis/Additional Views/ChartCell.swift`
+/// 
+/// ## Нюансы
+/// - В constraints одновременно задаётся `width == height` и `width == 220`. Это валидно (получится квадрат 220x220), но лучше оставить это очевидным комментарием — иначе выглядит как “случайный набор”.
+/// - `backgroundColor = .clear` у ячейки — ок, но важно проверять на разных стилях таблицы (`insetGrouped`) и темах.
+/// 
+
 import UIKit
 import PieChart
 
